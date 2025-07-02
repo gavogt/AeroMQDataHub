@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AeroMQDataHub", "AeroMQDataHub\AeroMQDataHub.csproj", "{F691EB07-07F5-47EC-9AA3-132276868360}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightTelemetryGateway", "FlightTelemetryGateway\FlightTelemetryGateway.csproj", "{F41D0ADA-F7AB-4F62-8C10-B6AC39ED086C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F691EB07-07F5-47EC-9AA3-132276868360}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F691EB07-07F5-47EC-9AA3-132276868360}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F691EB07-07F5-47EC-9AA3-132276868360}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F691EB07-07F5-47EC-9AA3-132276868360}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F41D0ADA-F7AB-4F62-8C10-B6AC39ED086C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F41D0ADA-F7AB-4F62-8C10-B6AC39ED086C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F41D0ADA-F7AB-4F62-8C10-B6AC39ED086C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F41D0ADA-F7AB-4F62-8C10-B6AC39ED086C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E80CCB85-0F80-4B98-8686-AA36C0DA29A9}
+	EndGlobalSection
+EndGlobal

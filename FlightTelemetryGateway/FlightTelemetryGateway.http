@@ -1,0 +1,6 @@
+@FlightTelemetryGateway_HostAddress = http://localhost:5137
+
+GET {{FlightTelemetryGateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
