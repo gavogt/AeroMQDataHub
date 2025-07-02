@@ -1,5 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using MQTTnet;
+using MQTTnet.Client;
+using MQTTnet.Protocol;
+using System.Text;
 
 namespace FlightTelemetryGateway.Controllers
 {
@@ -7,14 +12,41 @@ namespace FlightTelemetryGateway.Controllers
     [ApiController]
     public class MqttBridgeService : IHostedService
     {
-        public Task StartAsync(CancellationToken cancellationToken)
+        readonly IHubContext<TelemetryHub> _hub;
+        IMqttClient _client;
+
+        public MqttBridgeService(IHubContext<TelemetryHub> hub) => _hub = hub;
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var factory = new MqttFactory();
+            _client = factory.CreateMqttClient();
+
+            _client.ConnectedAsync += async e =>
+            {
+                await _client.SubscribeAsync(
+                    new MqttTopicFilterBuilder()
+                    .WithTopic("flight/telemtry")
+                    .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce)
+                    .Build(),
+                    cancellationToken);
+
+                _client.ApplicationMessageReceivedAsync += async e =>
+               {
+                   var msg = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+                   await _hub.Clients.All.SendAsync("TelemetryUpdate", msg);
+               };
+
+                var opts = new MqttClientOptionsBuilder()
+                .WithTcpServer("192.168.0.204", 1883)
+                .Build();
+
+                await _client.ConnectAsync(opts, cancellationToken);
+            };
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return _client.DisconnectAsync();
         }
     }
 }
