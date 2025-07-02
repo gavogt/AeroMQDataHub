@@ -25,7 +25,7 @@ namespace FlightTelemetryGateway.Controllers
             {
                 await _client.SubscribeAsync(
                     new MqttTopicFilterBuilder()
-                    .WithTopic("flight/telemtry")
+                    .WithTopic("flight/telemetry")
                     .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce)
                     .Build(),
                     cancellationToken);
