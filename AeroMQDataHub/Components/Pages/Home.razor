@@ -1,5 +1,52 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+@using System.Text.Json
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager Nav
 
-Welcome to your new app.
+<h1>Flight Telemetry</h1>
+
+@if (hubConnection is null)
+{
+    <p><em>Connecting....</em></p>
+}
+else if (hubConnection.State != HubConnectionState.Connected)
+{
+    <p><em>Reconnecting...</em></p>
+}
+else
+{
+    <ul>
+        @foreach (var t in telemetry)
+        {
+            <li>@($"{t.Roll:F1}°, {t.Pitch:F1}°, {t.Yaw:F0}° — {t.Volts:F2} V, {t.Amps:F2} A")</li>
+        }
+    </ul>
+}
+
+@code {
+    HubConnection? hubConnection;
+    List<Telemetry> telemetry = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl("http://localhost:8080/telemetryHub")
+            .WithAutomaticReconnect()
+            .Build();
+
+        hubConnection.On<string>("TelemetryUpdate", json =>
+        {
+            var t = JsonSerializer.Deserialize<Telemetry>(json);
+            if (t is not null)
+            {
+                telemetry.Insert(0, t);
+                if (telemetry.Count > 20)
+                    telemetry.RemoveAt(telemetry.Count - 1);
+                InvokeAsync(StateHasChanged);
+            }
+        });
+
+        await hubConnection.StartAsync();
+    }
+}

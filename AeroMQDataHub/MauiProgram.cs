@@ -15,6 +15,7 @@ namespace AeroMQDataHub
                 });
 
             builder.Services.AddMauiBlazorWebView();
+           
 
 #if DEBUG
     		builder.Services.AddBlazorWebViewDeveloperTools();

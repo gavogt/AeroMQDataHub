@@ -13,40 +13,41 @@ namespace FlightTelemetryGateway.Controllers
     public class MqttBridgeService : IHostedService
     {
         readonly IHubContext<TelemetryHub> _hub;
-        IMqttClient _client;
+        IMqttClient _client = default!;
 
         public MqttBridgeService(IHubContext<TelemetryHub> hub) => _hub = hub;
-        public async Task StartAsync(CancellationToken cancellationToken)
+
+        public async Task StartAsync(CancellationToken ct)
         {
             var factory = new MqttFactory();
             _client = factory.CreateMqttClient();
 
-            _client.ConnectedAsync += async e =>
+            _client.ConnectedAsync += async args =>
             {
                 await _client.SubscribeAsync(
-                    new MqttTopicFilterBuilder()
+                  new MqttTopicFilterBuilder()
                     .WithTopic("flight/telemetry")
                     .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce)
                     .Build(),
-                    cancellationToken);
+                  ct);
+            };
 
-                _client.ApplicationMessageReceivedAsync += async e =>
-               {
-                   var msg = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
-                   await _hub.Clients.All.SendAsync("TelemetryUpdate", msg);
-               };
+            _client.ApplicationMessageReceivedAsync += async e =>
+            {
+                var msg = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+                await _hub.Clients.All.SendAsync("TelemetryUpdate", msg, ct);
+            };
 
-                var opts = new MqttClientOptionsBuilder()
+            var opts = new MqttClientOptionsBuilder()
                 .WithTcpServer("192.168.0.204", 1883)
                 .Build();
 
-                await _client.ConnectAsync(opts, cancellationToken);
-            };
+            await _client.ConnectAsync(opts, ct);
+
+            await _hub.Clients.All.SendAsync("TelemetryUpdate", "{\"test\":123}", ct);
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            return _client.DisconnectAsync();
-        }
+        public Task StopAsync(CancellationToken ct)
+            => _client.DisconnectAsync();
     }
 }
