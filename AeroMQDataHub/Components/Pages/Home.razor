@@ -16,17 +16,47 @@ else if (hubConnection.State != HubConnectionState.Connected)
 }
 else
 {
-    <ul>
-        @foreach (var t in telemetry)
+    <div class="row g-2">
+        @if (telemetry.Any())
         {
-            <li>@($"{t.Roll:F1}°, {t.Pitch:F1}°, {t.Yaw:F0}° — {t.Volts:F2} V, {t.Amps:F2} A")</li>
+            var t = telemetry[0];
+            <div class="col-6 col-md-4 col-lg2">
+                <div class="card text-center">
+                    <card class="card-header">Roll</card>
+                    <div class="card-body"><h2>@t.Roll:F1°</h2></div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg2">
+                <div class="card text-center">
+                    <card class="card-header">Pitch</card>
+                    <div class="card-body"><h2>@t.Pitch:F1°</h2></div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg2">
+                <div class="card text-center">
+                    <card class="card-header">Yaw</card>
+                    <div class="card-body"><h2>@t.Yaw:F0°</h2></div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg2">
+                <div class="card text-center">
+                    <card class="card-header">Voltage</card>
+                    <div class="card-body"><h2>@t.Volts:F2 V</h2></div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg2">
+                <div class="card text-center">
+                    <card class="card-header">Current</card>
+                    <div class="card-body"><h2>@t.Amps:F2 A</h2></div>
+                </div>
+            </div>
         }
-    </ul>
+    </div>
 }
 
 @code {
     HubConnection? hubConnection;
-    List<Telemetry> telemetry = new();
+    public List<Telemetry> telemetry = new();
 
     protected override async Task OnInitializedAsync()
     {
