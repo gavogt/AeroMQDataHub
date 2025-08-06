@@ -43,3 +43,4 @@ while True:
         mqttc.publish("flight/telemetry", payload, qos=0)
 
     time.sleep(0.2)
+
