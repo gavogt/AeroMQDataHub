@@ -29,25 +29,36 @@ else
             <div class="col-6 col-md-4 col-lg2">
                 <div class="card text-center">
                     <card class="card-header">Pitch</card>
-                    <div class="card-body"><h2>@t.Pitch:F1°</h2></div>
+                    <div class="card-body"><h2>@($"{t.Pitch:F1}°")</h2></div>
                 </div>
             </div>
             <div class="col-6 col-md-4 col-lg2">
                 <div class="card text-center">
                     <card class="card-header">Yaw</card>
-                    <div class="card-body"><h2>@t.Yaw:F0°</h2></div>
+                    <div class="card-body"><h2>@($"{t.Yaw:F0}°")</h2></div>
                 </div>
             </div>
             <div class="col-6 col-md-4 col-lg2">
                 <div class="card text-center">
                     <card class="card-header">Voltage</card>
-                    <div class="card-body"><h2>@t.Volts:F2 V</h2></div>
+                    <div class="card-body"><h2>@($"{t.Volts:F2} V")</h2></div>
                 </div>
             </div>
             <div class="col-6 col-md-4 col-lg2">
                 <div class="card text-center">
                     <card class="card-header">Current</card>
-                    <div class="card-body"><h2>@t.Amps:F2 A</h2></div>
+                    <div class="card-body"><h2>@($"{t.Amps:F2} A")</h2></div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card text-center">
+                    <card class="card-header">GPS</card>
+                    <div class="card-body">
+                        <h4>Latitude: <span class="text-primary">@t.Lat:F6</span></h4>
+                        <h4>Longitude: <span class="text-primary">@t.Lon:F6</span></h4>
+                        <h4>Altitude: <span class="text-primary">@t.Alt:F1 m</span></h4>
+                        <h5>Satellites: <span class="text-success">@t.Sats</span> | Fix: <span class="text-success">@t.Fix</span></h5>
+                    </div>
                 </div>
             </div>
         }
