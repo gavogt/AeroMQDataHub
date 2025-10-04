@@ -45,6 +45,55 @@ else
                                 <div>@($"{t.Yaw:F0}°")</div>
                             </div>
                         </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <div class="fw-bold">Armed</div>
+                                <div>@(t.Armed == true ? "Yes" : t.Armed == false ? "No" : "-")</div>
+                            </div>
+                            <div class="col">
+                                <div class="fw-bold">Mode</div>
+                                <div>@(t.Mode ?? "-")</div>
+                            </div>
+                            <div class="col">
+                                <div class="fw-bold">Cycle Time</div>
+                                <div>@(t.CycleTimeUs?.ToString() ?? "-") <span class="text-muted">us</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                <div class="card shadow-sm" style="height:auto; min-height:unset;">
+                    <div class="card-header bg-secondary text-white">RC & Baro</div>
+                    <div class="card-body text-center p-2">
+                        <div class="row mb-1">
+                            <div class="col">
+                                <div class="fw-bold">RC Roll</div>
+                                <div>@(t.RcRoll?.ToString() ?? "-")</div>
+                            </div>
+                            <div class="col">
+                                <div class="fw-bold">RC Pitch</div>
+                                <div>@(t.RcPitch?.ToString() ?? "-")</div>
+                            </div>
+                            <div class="col">
+                                <div class="fw-bold">RC Yaw</div>
+                                <div>@(t.RcYaw?.ToString() ?? "-")</div>
+                            </div>
+                            <div class="col">
+                                <div class="fw-bold">RC Throttle</div>
+                                <div>@(t.RcThrottle?.ToString() ?? "-")</div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                                <div class="fw-bold">Baro Alt</div>
+                                <div>@(t.BaroAltM?.ToString("F2") ?? "-") <span class="text-muted">m</span></div>
+                            </div>
+                            <div class="col">
+                                <div class="fw-bold">VSpeed</div>
+                                <div>@(t.VSpeedMs?.ToString("F2") ?? "-") <span class="text-muted">m/s</span></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -53,6 +102,7 @@ else
                     <div class="card-header bg-info text-white">Voltage</div>
                     <div class="card-body text-center p-2">
                         <span class="display-6">@($"{t.Volts:F2}")</span> <span class="text-muted">V</span>
+                        <div class="small">@((t.Mah.HasValue ? $"{t.Mah} mAh" : ""))</div>
                     </div>
                 </div>
             </div>
@@ -93,6 +143,20 @@ else
                             <div class="col">
                                 <div class="fw-bold">Fix</div>
                                 <div>@t.Fix</div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col">
+                                <div class="fw-bold">Speed</div>
+                                <div>@(t.GpsSpeedMs?.ToString("F1") ?? "-") <span class="text-muted">m/s</span></div>
+                            </div>
+                            <div class="col">
+                                <div class="fw-bold">Course</div>
+                                <div>@(t.GpsCourseDeg?.ToString("F1") ?? "-") <span class="text-muted">°</span></div>
+                            </div>
+                            <div class="col">
+                                <div class="fw-bold">Rescue</div>
+                                <div>@(t.GpsRescue == true ? "Yes" : t.GpsRescue == false ? "No" : "-")</div>
                             </div>
                         </div>
                         @if (t.Lat != 0 && t.Lon != 0)
