@@ -4,61 +4,103 @@
 @using Microsoft.AspNetCore.SignalR.Client
 @inject NavigationManager Nav
 
-<h1>Flight Telemetry</h1>
+<h1 class="mb-4 text-center">Flight Telemetry</h1>
 
 @if (hubConnection is null)
 {
-    <p><em>Connecting....</em></p>
+    <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Connecting...</span>
+        </div>
+        <span class="ms-3">Connecting...</span>
+    </div>
 }
 else if (hubConnection.State != HubConnectionState.Connected)
 {
-    <p><em>Reconnecting...</em></p>
+    <div class="alert alert-warning text-center" role="alert">
+        <strong>Reconnecting...</strong>
+    </div>
 }
 else
 {
-    <div class="row g-2">
+    <div class="row g-3 justify-content-center">
         @if (telemetry.Any())
         {
             var t = telemetry[0];
-            <div class="col-6 col-md-4 col-lg2">
-                <div class="card text-center">
-                    <card class="card-header">Roll</card>
-                    <div class="card-body"><h2>@($"{t.Roll:F1}°")</h2></div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg2">
-                <div class="card text-center">
-                    <card class="card-header">Pitch</card>
-                    <div class="card-body"><h2>@($"{t.Pitch:F1}°")</h2></div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg2">
-                <div class="card text-center">
-                    <card class="card-header">Yaw</card>
-                    <div class="card-body"><h2>@($"{t.Yaw:F0}°")</h2></div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg2">
-                <div class="card text-center">
-                    <card class="card-header">Voltage</card>
-                    <div class="card-body"><h2>@($"{t.Volts:F2} V")</h2></div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg2">
-                <div class="card text-center">
-                    <card class="card-header">Current</card>
-                    <div class="card-body"><h2>@($"{t.Amps:F2} A")</h2></div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="card text-center">
-                    <card class="card-header">GPS</card>
-                    <div class="card-body">
-                        <h4>Latitude: <span class="text-primary">@t.Lat:F6</span></h4>
-                        <h4>Longitude: <span class="text-primary">@t.Lon:F6</span></h4>
-                        <h4>Altitude: <span class="text-primary">@t.Alt:F1 m</span></h4>
-                        <h5>Satellites: <span class="text-success">@t.Sats</span> | Fix: <span class="text-success">@t.Fix</span></h5>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-primary text-white">Attitude</div>
+                    <div class="card-body text-center">
+                        <div class="row mb-2">
+                            <div class="col">
+                                <div class="fw-bold">Roll</div>
+                                <div>@($"{t.Roll:F1}°")</div>
+                            </div>
+                            <div class="col">
+                                <div class="fw-bold">Pitch</div>
+                                <div>@($"{t.Pitch:F1}°")</div>
+                            </div>
+                            <div class="col">
+                                <div class="fw-bold">Yaw</div>
+                                <div>@($"{t.Yaw:F0}°")</div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-info text-white">Voltage</div>
+                    <div class="card-body text-center">
+                        <span class="display-6">@($"{t.Volts:F2}")</span> <span class="text-muted">V</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-info text-white">Current</div>
+                    <div class="card-body text-center">
+                        <span class="display-6">@($"{t.Amps:F2}")</span> <span class="text-muted">A</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-success text-white">GPS</div>
+                    <div class="card-body text-center">
+                        <div class="row mb-2">
+                            <div class="col">
+                                <div class="fw-bold">Latitude</div>
+                                <div>@t.Lat:F6</div>
+                            </div>
+                            <div class="col">
+                                <div class="fw-bold">Longitude</div>
+                                <div>@t.Lon:F6</div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col">
+                                <div class="fw-bold">Altitude</div>
+                                <div>@t.Alt:F1 <span class="text-muted">m</span></div>
+                            </div>
+                            <div class="col">
+                                <div class="fw-bold">Satellites</div>
+                                <div>@t.Sats</div>
+                            </div>
+                            <div class="col">
+                                <div class="fw-bold">Fix</div>
+                                <div>@t.Fix</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="alert alert-info text-center" role="alert">
+                    No telemetry data received yet.
                 </div>
             </div>
         }
