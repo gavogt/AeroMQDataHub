@@ -95,6 +95,10 @@ else
                                 <div>@t.Fix</div>
                             </div>
                         </div>
+                        @if (t.Lat != 0 && t.Lon != 0)
+                        {
+                            <MauiMap Latitude="@t.Lat" Longitude="@t.Lon" Altitude="@t.Alt" />
+                        }
                     </div>
                 </div>
             </div>

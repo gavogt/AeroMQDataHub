@@ -1,0 +1,22 @@
+@using Microsoft.AspNetCore.Components
+
+@if (Latitude != 0 && Longitude != 0)
+{
+    <div style="width:100%;height:250px;">
+        <iframe
+            width="100%"
+            height="250"
+            style="border:0; border-radius:8px;"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.bing.com/maps/embed?h=250&w=400&cp=@Latitude~@Longitude&lvl=16&typ=d&sty=r&src=SHELL&FORM=MBEDV8">
+        </iframe>
+    </div>
+}
+
+@code {
+    [Parameter] public double Latitude { get; set; }
+    [Parameter] public double Longitude { get; set; }
+    [Parameter] public double Altitude { get; set; }
+}
