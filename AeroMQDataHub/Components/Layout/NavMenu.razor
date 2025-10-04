@@ -1,34 +1,44 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿<div class="top-row ps-3 alien-navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="">AeroMQDataHub</a>
     </div>
 </div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
-
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-    </nav>
-</div>
+<nav class="alien-nav nav flex-column px-3 py-4">
+    <NavLink class="nav-link alien-nav-link" href="/" Match="NavLinkMatch.All">
+        <span class="oi oi-home" aria-hidden="true"></span> Home
+    </NavLink>
+</nav>
 
 <style>
+    .alien-navbar {
+        background: linear-gradient(90deg, #1a0033 0%, #2d0b4e 100%);
+        border-bottom: 2px solid #a259ff;
+        box-shadow: 0 2px 16px #a259ff40;
+        color: #00fff7;
+        padding: 0.5rem 0 0.5rem 0;
+    }
+    .alien-navbar .navbar-brand {
+        color: #00fff7 !important;
+        font-weight: bold;
+        letter-spacing: 0.04em;
+        text-shadow: 0 0 8px #00fff7, 0 0 2px #a259ff;
+        font-size: 1.3rem;
+    }
     .alien-nav {
         background: linear-gradient(135deg, #1a0033 0%, #2d0b4e 100%);
         border-right: 2px solid #a259ff;
         min-height: 100vh;
         box-shadow: 2px 0 16px #a259ff40;
+        overflow: visible !important;
     }
     .alien-nav-link {
         color: #00fff7 !important;
-        font-weight: 500;
+        font-weight: 600;
         letter-spacing: 0.03em;
         text-shadow: 0 0 8px #00fff7, 0 0 2px #a259ff;
         transition: color 0.2s;
+        font-size: 1.1rem;
     }
     .alien-nav-link.active, .alien-nav-link:hover {
         color: #a259ff !important;
@@ -37,8 +47,3 @@
     }
 </style>
 
-<nav class="alien-nav nav flex-column px-3 py-4">
-    <NavLink class="nav-link alien-nav-link" href="/" Match="NavLinkMatch.All">
-        <span class="oi oi-home" aria-hidden="true"></span> Home
-    </NavLink>
-</nav>
