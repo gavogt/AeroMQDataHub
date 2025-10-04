@@ -28,10 +28,10 @@ else
         {
             var t = telemetry[0];
             <div class="col-12 col-md-6 col-lg-4 mb-3">
-                <div class="card shadow-sm h-100">
+                <div class="card shadow-sm" style="height:auto; min-height:unset;">
                     <div class="card-header bg-primary text-white">Attitude</div>
-                    <div class="card-body text-center">
-                        <div class="row mb-2">
+                    <div class="card-body text-center p-2">
+                        <div class="row mb-1">
                             <div class="col">
                                 <div class="fw-bold">Roll</div>
                                 <div>@($"{t.Roll:F1}°")</div>
@@ -49,17 +49,17 @@ else
                 </div>
             </div>
             <div class="col-6 col-md-3 col-lg-2 mb-3">
-                <div class="card shadow-sm h-100">
+                <div class="card shadow-sm" style="height:auto; min-height:unset;">
                     <div class="card-header bg-info text-white">Voltage</div>
-                    <div class="card-body text-center">
+                    <div class="card-body text-center p-2">
                         <span class="display-6">@($"{t.Volts:F2}")</span> <span class="text-muted">V</span>
                     </div>
                 </div>
             </div>
             <div class="col-6 col-md-3 col-lg-2 mb-3">
-                <div class="card shadow-sm h-100">
+                <div class="card shadow-sm" style="height:auto; min-height:unset;">
                     <div class="card-header bg-info text-white">Current</div>
-                    <div class="card-body text-center">
+                    <div class="card-body text-center p-2">
                         <span class="display-6">@($"{t.Amps:F2}")</span> <span class="text-muted">A</span>
                     </div>
                 </div>
