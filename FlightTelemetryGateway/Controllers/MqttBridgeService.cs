@@ -36,12 +36,26 @@ namespace FlightTelemetryGateway.Controllers
                     .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce)
                     .Build(),
                   ct);
+                await _client.SubscribeAsync(
+                  new MqttTopicFilterBuilder()
+                    .WithTopic("flight/camera")
+                    .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtLeastOnce)
+                    .Build(),
+                  ct);
             };
 
             _client.ApplicationMessageReceivedAsync += async e =>
             {
+                var topic = e.ApplicationMessage.Topic;
                 var msg = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
-                await _hub.Clients.All.SendAsync("TelemetryUpdate", msg, ct);
+                if (topic == "flight/telemetry")
+                {
+                    await _hub.Clients.All.SendAsync("TelemetryUpdate", msg, ct);
+                }
+                else if (topic == "flight/camera")
+                {
+                    await _hub.Clients.All.SendAsync("CameraUpdate", msg, ct);
+                }
             };
 
             // Read from appsettings.json

@@ -277,6 +277,23 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-12 col-md-6 col-lg-4 mb-3">
+                        <div class="card alien-card h-100">
+                            <div class="card-header alien-header"><i class="fa-solid fa-camera"></i> Camera</div>
+                            <div class="card-body text-center">
+                                @if (cameraData != null)
+                                {
+                                    <img src="@cameraData.ImageSrc" alt="PiCam" style="max-width:100%;border-radius:0.7rem;box-shadow:0 0 12px #00fff7a0;" />
+                                    <div class="mt-2 alien-label">@cameraData.Timestamp</div>
+                                    <div class="small alien-value">@cameraData.Width x @cameraData.Height • @cameraData.Format.ToUpper() • Q@cameraData.Quality</div>
+                                }
+                                else
+                                {
+                                    <div class="text-muted">No camera data received yet.</div>
+                                }
+                            </div>
+                        </div>
+                    </div>
                 }
                 else
                 {
@@ -288,12 +305,25 @@
                 }
             </div>
         }
-    </div>
+    }
+</div>
 </div>
 
 @code {
     HubConnection? hubConnection;
     public List<Telemetry> telemetry = new();
+
+    // Camera data model
+    public class CameraData
+    {
+        public string? ImageSrc { get; set; }
+        public string? Timestamp { get; set; }
+        public string? Format { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int Quality { get; set; }
+    }
+    CameraData? cameraData;
 
     protected override async Task OnInitializedAsync()
     {
@@ -312,6 +342,33 @@
                     telemetry.RemoveAt(telemetry.Count - 1);
                 InvokeAsync(StateHasChanged);
             }
+        });
+
+        // Camera MQTT message handler
+        hubConnection.On<string>("CameraUpdate", json =>
+        {
+            try
+            {
+                var doc = JsonDocument.Parse(json);
+                var root = doc.RootElement;
+                var data = root.GetProperty("Data").GetString();
+                var format = root.GetProperty("Format").GetString();
+                var ts = root.GetProperty("Timestamp").GetString();
+                var w = root.GetProperty("Width").GetInt32();
+                var h = root.GetProperty("Height").GetInt32();
+                var q = root.GetProperty("Quality").GetInt32();
+                cameraData = new CameraData
+                {
+                    ImageSrc = $"data:image/{format};base64,{data}",
+                    Timestamp = ts,
+                    Format = format,
+                    Width = w,
+                    Height = h,
+                    Quality = q
+                };
+                InvokeAsync(StateHasChanged);
+            }
+            catch { }
         });
 
         await hubConnection.StartAsync();
