@@ -80,6 +80,17 @@
         margin-bottom: 0;
         text-shadow: 0 0 4px #1a0033;
     }
+    .rc-baro-table {
+        width: 100%;
+        margin: 0 auto;
+        border-collapse: separate;
+        border-spacing: 0 0.5rem;
+    }
+    .rc-baro-table td {
+        padding: 0.25rem 0.5rem;
+        vertical-align: middle;
+        text-align: center;
+    }
 </style>
 
 <div class="alien-bg" style="min-height:100vh;">
@@ -162,34 +173,38 @@
                         <div class="card alien-card">
                             <div class="card-header alien-header"><i class="fa-solid fa-signal"></i> RC &amp; Baro</div>
                             <div class="card-body text-center p-2">
-                                <div class="row mb-1">
-                                    <div class="col">
-                                        <div class="alien-label"><i class="fa-solid fa-arrow-right-arrow-left"></i> RC Roll</div>
-                                        <div class="alien-value">@(t.RcRoll?.ToString() ?? "-")</div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="alien-label"><i class="fa-solid fa-arrow-up"></i> RC Pitch</div>
-                                        <div class="alien-value">@(t.RcPitch?.ToString() ?? "-")</div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="alien-label"><i class="fa-solid fa-compass"></i> RC Yaw</div>
-                                        <div class="alien-value">@(t.RcYaw?.ToString() ?? "-")</div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="alien-label"><i class="fa-solid fa-arrow-up"></i> RC Throttle</div>
-                                        <div class="alien-value">@(t.RcThrottle?.ToString() ?? "-")</div>
-                                    </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col">
-                                        <div class="alien-label"><i class="fa-solid fa-location-dot"></i> Baro Alt</div>
-                                        <div class="alien-value">@(t.BaroAltM?.ToString("F2") ?? "-") <span class="text-muted">m</span></div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="alien-label"><i class="fa-solid fa-wind"></i> VSpeed</div>
-                                        <div class="alien-value">@(t.VSpeedMs?.ToString("F2") ?? "-") <span class="text-muted">m/s</span></div>
-                                    </div>
-                                </div>
+                                <table class="rc-baro-table">
+                                    <tr>
+                                        <td>
+                                            <div class="alien-label"><i class="fa-solid fa-arrow-right-arrow-left"></i> RC Roll</div>
+                                            <div class="alien-value">@(t.RcRoll?.ToString() ?? "-")</div>
+                                        </td>
+                                        <td>
+                                            <div class="alien-label"><i class="fa-solid fa-arrow-up"></i> RC Pitch</div>
+                                            <div class="alien-value">@(t.RcPitch?.ToString() ?? "-")</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="alien-label"><i class="fa-solid fa-compass"></i> RC Yaw</div>
+                                            <div class="alien-value">@(t.RcYaw?.ToString() ?? "-")</div>
+                                        </td>
+                                        <td>
+                                            <div class="alien-label"><i class="fa-solid fa-arrow-up"></i> RC Throttle</div>
+                                            <div class="alien-value">@(t.RcThrottle?.ToString() ?? "-")</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="alien-label"><i class="fa-solid fa-location-dot"></i> Baro Alt</div>
+                                            <div class="alien-value">@(t.BaroAltM?.ToString("F2") ?? "-") <span class="text-muted">m</span></div>
+                                        </td>
+                                        <td>
+                                            <div class="alien-label"><i class="fa-solid fa-wind"></i> VSpeed</div>
+                                            <div class="alien-value">@(t.VSpeedMs?.ToString("F2") ?? "-") <span class="text-muted">m/s</span></div>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
