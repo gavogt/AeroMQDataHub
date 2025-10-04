@@ -4,6 +4,9 @@
 @using Microsoft.AspNetCore.SignalR.Client
 @inject NavigationManager Nav
 
+<!-- Font Awesome CDN for open, reliable, responsive icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <style>
     body, .alien-bg {
         background: linear-gradient(135deg, #0a0826 0%, #1a0033 100%) !important;
@@ -21,8 +24,10 @@
         text-shadow: 0 0 8px #00fff7, 0 0 2px #a259ff;
         border-bottom: 1.5px solid #00fff7;
     }
-    .alien-icon {
+    .alien-icon, .fa-alien, .fa-gauge, .fa-battery-half, .fa-bolt, .fa-satellite-dish, .fa-location-dot, .fa-lock-open, .fa-lock, .fa-plane, .fa-wind, .fa-signal, .fa-route, .fa-compass, .fa-arrow-up, .fa-arrow-down {
         filter: drop-shadow(0 0 6px #00fff7) drop-shadow(0 0 2px #a259ff);
+        color: #00fff7;
+        margin-right: 0.25em;
     }
     .alien-badge {
         background: #1a0033;
@@ -82,7 +87,7 @@
         <div class="kryx-card">
             <img src="images/kryx.png" alt="Kryx of Reticula-7" class="kryx-img" />
             <div>
-                <div class="kryx-title">Kryx of Reticula-7 (a.k.a. Skater Zeta)</div>
+                <div class="kryx-title"><i class="fa-solid fa-alien"></i> Kryx of Reticula-7 (a.k.a. Skater Zeta)</div>
                 <div class="kryx-story">
                     Skater Zeta—real name Kryx of Reticula-7—never fit the stiff, council-approved mold back home. He learned balance on a mag-deck, hat always backward, carving neon rails between comm towers. During a maintenance gig, he discovered he could “hear” machines: faint emotional pings from gyros, ESCs, even tired batteries. On Reticula, that knack was called neuro-link resonance. To Kryx, it felt like telepathy with toys.<br><br>
                     When a survey drone went missing over a dust canyon, Kryx followed the anxious hum of its failing IMU, nudged its attitude through sheer focus, and floated it home. Word spread. He started building quads tuned for thought: carbon frames wrapped with psi-mesh, receivers that translated micro-intent into gentle throttle curves. No transmitter—just a calm mind and a skateboarder’s sense of flow.<br><br>
@@ -91,19 +96,19 @@
             </div>
         </div>
 
-        <h1 class="mb-4 text-center" style="color:#a259ff;text-shadow:0 0 12px #00fff7;">Flight Telemetry</h1>
+        <h1 class="mb-4 text-center" style="color:#a259ff;text-shadow:0 0 12px #00fff7;"><i class="fa-solid fa-gauge"></i> Flight Telemetry</h1>
 
         @if (hubConnection is null)
         {
             <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
                 <div class="spinner-border" style="color:#00fff7;"></div>
-                <span class="ms-3" style="color:#a259ff;">Connecting...</span>
+                <span class="ms-3" style="color:#a259ff;"><i class="fa-solid fa-satellite-dish"></i> Connecting...</span>
             </div>
         }
         else if (hubConnection.State != HubConnectionState.Connected)
         {
             <div class="alert text-center" style="background:#1a0033;color:#00fff7;border:1px solid #a259ff;">
-                <strong>Reconnecting...</strong>
+                <strong><i class="fa-solid fa-satellite-dish"></i> Reconnecting...</strong>
             </div>
         }
         else
@@ -115,38 +120,38 @@
                     <div class="col-12 col-md-6 col-lg-4 mb-3">
                         <div class="card alien-card">
                             <div class="card-header alien-header d-flex align-items-center justify-content-between">
-                                <span>Attitude</span>
-                                <span class="iconify alien-icon" data-icon="ph:airplane-tilt" data-width="32" data-height="32" style="@($"transition: transform 0.5s; transform: rotate({t.Yaw}deg);")"></span>
+                                <span><i class="fa-solid fa-plane"></i> Attitude</span>
+                                <span class="fa-solid fa-compass alien-icon" style="transition: transform 0.5s; transform: rotate(@t.Yaw deg);"></span>
                             </div>
                             <div class="card-body text-center p-2">
                                 <div class="row mb-1">
                                     <div class="col">
-                                        <div class="alien-label">Roll</div>
+                                        <div class="alien-label"><i class="fa-solid fa-arrow-right-arrow-left"></i> Roll</div>
                                         <div class="alien-value">@($"{t.Roll:F1}°")</div>
                                     </div>
                                     <div class="col">
-                                        <div class="alien-label">Pitch</div>
+                                        <div class="alien-label"><i class="fa-solid fa-arrow-up"></i> Pitch</div>
                                         <div class="alien-value">@($"{t.Pitch:F1}°")</div>
                                     </div>
                                     <div class="col">
-                                        <div class="alien-label">Yaw</div>
+                                        <div class="alien-label"><i class="fa-solid fa-compass"></i> Yaw</div>
                                         <div class="alien-value">@($"{t.Yaw:F0}°")</div>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
                                     <div class="col">
-                                        <div class="alien-label">Armed</div>
+                                        <div class="alien-label"><i class="fa-solid fa-lock-open"></i> Armed</div>
                                         <div>
-                                            <span class="iconify alien-icon" data-icon="ph:lock-open" data-width="24" data-height="24" style="@($"color:{GetArmedIconColor(t.Armed)}; vertical-align:middle; transition: color 0.5s;")"></span>
+                                            <span class="fa-solid @(t.Armed == true ? "fa-lock-open" : t.Armed == false ? "fa-lock" : "fa-question") alien-icon" style="color:@GetArmedIconColor(t.Armed); vertical-align:middle; transition: color 0.5s;"></span>
                                             <span class="alien-value">@(t.Armed == true ? "Yes" : t.Armed == false ? "No" : "-")</span>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="alien-label">Mode</div>
+                                        <div class="alien-label"><i class="fa-solid fa-route"></i> Mode</div>
                                         <div class="alien-value">@(t.Mode ?? "-")</div>
                                     </div>
                                     <div class="col">
-                                        <div class="alien-label">Cycle Time</div>
+                                        <div class="alien-label"><i class="fa-solid fa-gauge"></i> Cycle Time</div>
                                         <div class="alien-value">@(t.CycleTimeUs?.ToString() ?? "-") <span class="text-muted">us</span></div>
                                     </div>
                                 </div>
@@ -155,33 +160,33 @@
                     </div>
                     <div class="col-12 col-md-6 col-lg-4 mb-3">
                         <div class="card alien-card">
-                            <div class="card-header alien-header">RC &amp; Baro</div>
+                            <div class="card-header alien-header"><i class="fa-solid fa-signal"></i> RC &amp; Baro</div>
                             <div class="card-body text-center p-2">
                                 <div class="row mb-1">
                                     <div class="col">
-                                        <div class="alien-label">RC Roll</div>
+                                        <div class="alien-label"><i class="fa-solid fa-arrow-right-arrow-left"></i> RC Roll</div>
                                         <div class="alien-value">@(t.RcRoll?.ToString() ?? "-")</div>
                                     </div>
                                     <div class="col">
-                                        <div class="alien-label">RC Pitch</div>
+                                        <div class="alien-label"><i class="fa-solid fa-arrow-up"></i> RC Pitch</div>
                                         <div class="alien-value">@(t.RcPitch?.ToString() ?? "-")</div>
                                     </div>
                                     <div class="col">
-                                        <div class="alien-label">RC Yaw</div>
+                                        <div class="alien-label"><i class="fa-solid fa-compass"></i> RC Yaw</div>
                                         <div class="alien-value">@(t.RcYaw?.ToString() ?? "-")</div>
                                     </div>
                                     <div class="col">
-                                        <div class="alien-label">RC Throttle</div>
+                                        <div class="alien-label"><i class="fa-solid fa-arrow-up"></i> RC Throttle</div>
                                         <div class="alien-value">@(t.RcThrottle?.ToString() ?? "-")</div>
                                     </div>
                                 </div>
                                 <div class="row mt-2">
                                     <div class="col">
-                                        <div class="alien-label">Baro Alt</div>
+                                        <div class="alien-label"><i class="fa-solid fa-location-dot"></i> Baro Alt</div>
                                         <div class="alien-value">@(t.BaroAltM?.ToString("F2") ?? "-") <span class="text-muted">m</span></div>
                                     </div>
                                     <div class="col">
-                                        <div class="alien-label">VSpeed</div>
+                                        <div class="alien-label"><i class="fa-solid fa-wind"></i> VSpeed</div>
                                         <div class="alien-value">@(t.VSpeedMs?.ToString("F2") ?? "-") <span class="text-muted">m/s</span></div>
                                     </div>
                                 </div>
@@ -190,7 +195,7 @@
                     </div>
                     <div class="col-6 col-md-3 col-lg-2 mb-3">
                         <div class="card alien-card">
-                            <div class="card-header alien-header">Voltage</div>
+                            <div class="card-header alien-header"><i class="fa-solid fa-battery-half"></i> Voltage</div>
                             <div class="card-body text-center p-2">
                                 <span class="display-6 alien-value">@($"{t.Volts:F2}")</span> <span class="text-muted">V</span>
                                 <div class="small alien-label">@((t.Mah.HasValue ? $"{t.Mah} mAh" : ""))</div>
@@ -199,7 +204,7 @@
                     </div>
                     <div class="col-6 col-md-3 col-lg-2 mb-3">
                         <div class="card alien-card">
-                            <div class="card-header alien-header">Current</div>
+                            <div class="card-header alien-header"><i class="fa-solid fa-bolt"></i> Current</div>
                             <div class="card-body text-center p-2">
                                 <span class="display-6 alien-value">@($"{t.Amps:F2}")</span> <span class="text-muted">A</span>
                             </div>
@@ -207,46 +212,46 @@
                     </div>
                     <div class="col-12 col-md-6 col-lg-4 mb-3">
                         <div class="card alien-card h-100">
-                            <div class="card-header alien-header">GPS</div>
+                            <div class="card-header alien-header"><i class="fa-solid fa-location-dot"></i> GPS</div>
                             <div class="card-body text-center">
                                 <div class="mb-3">
-                                    <div class="alien-label mb-1">Coordinates</div>
+                                    <div class="alien-label mb-1"><i class="fa-solid fa-location-dot"></i> Coordinates</div>
                                     <div class="d-flex flex-column align-items-center">
                                         <span class="badge alien-badge mb-1" style="font-size:1.1em;">
-                                            <i class="bi bi-geo-alt-fill" style="color:#00fff7;"></i>
+                                            <i class="fa-solid fa-location-dot"></i>
                                             Lat: <span class="fw-semibold">@t.Lat:F6</span>
                                         </span>
                                         <span class="badge alien-badge" style="font-size:1.1em;">
-                                            <i class="bi bi-geo-alt-fill" style="color:#a259ff;"></i>
+                                            <i class="fa-solid fa-location-dot" style="color:#a259ff;"></i>
                                             Lon: <span class="fw-semibold">@t.Lon:F6</span>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col">
-                                        <div class="alien-label">Altitude</div>
+                                        <div class="alien-label"><i class="fa-solid fa-arrow-up"></i> Altitude</div>
                                         <div class="alien-value">@t.Alt:F1 <span class="text-muted">m</span></div>
                                     </div>
                                     <div class="col">
-                                        <div class="alien-label">Satellites</div>
+                                        <div class="alien-label"><i class="fa-solid fa-signal"></i> Satellites</div>
                                         <div class="alien-value">@t.Sats</div>
                                     </div>
                                     <div class="col">
-                                        <div class="alien-label">Fix</div>
+                                        <div class="alien-label"><i class="fa-solid fa-compass"></i> Fix</div>
                                         <div class="alien-value">@t.Fix</div>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col">
-                                        <div class="alien-label">Speed</div>
+                                        <div class="alien-label"><i class="fa-solid fa-wind"></i> Speed</div>
                                         <div class="alien-value">@(t.GpsSpeedMs?.ToString("F1") ?? "-") <span class="text-muted">m/s</span></div>
                                     </div>
                                     <div class="col">
-                                        <div class="alien-label">Course</div>
+                                        <div class="alien-label"><i class="fa-solid fa-route"></i> Course</div>
                                         <div class="alien-value">@(t.GpsCourseDeg?.ToString("F1") ?? "-") <span class="text-muted">°</span></div>
                                     </div>
                                     <div class="col">
-                                        <div class="alien-label">Rescue</div>
+                                        <div class="alien-label"><i class="fa-solid fa-bolt"></i> Rescue</div>
                                         <div class="alien-value">@(t.GpsRescue == true ? "Yes" : t.GpsRescue == false ? "No" : "-")</div>
                                     </div>
                                 </div>
@@ -262,7 +267,7 @@
                 {
                     <div class="col-12">
                         <div class="alert text-center" style="background:#1a0033;color:#00fff7;border:1px solid #a259ff;">
-                            No telemetry data received yet.
+                            <i class="fa-solid fa-satellite-dish"></i> No telemetry data received yet.
                         </div>
                     </div>
                 }
