@@ -1,14 +1,32 @@
 ﻿@inherits LayoutComponentBase
 
+<style>
+    .alien-about {
+        background: linear-gradient(90deg, #1a0033 0%, #2d0b4e 100%);
+        color: #00fff7;
+        border-bottom: 2px solid #a259ff;
+        box-shadow: 0 2px 16px #a259ff40;
+        padding: 1.5rem 0 1rem 0;
+        margin-bottom: 2rem;
+        text-align: center;
+        font-size: 1.15rem;
+        letter-spacing: 0.02em;
+        text-shadow: 0 0 8px #00fff7, 0 0 2px #a259ff;
+    }
+</style>
+
+<div class="alien-about">
+    <strong>AeroMQ DataHub</strong> &mdash; Real-time drone telemetry dashboard.<br />
+    <span style="color:#a259ff;">Powered by .NET MAUI, SignalR, and MQTT</span>
+</div>
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+
 
         <article class="content px-4">
             @Body

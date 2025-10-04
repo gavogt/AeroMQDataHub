@@ -15,3 +15,30 @@
         </div>
     </nav>
 </div>
+
+<style>
+    .alien-nav {
+        background: linear-gradient(135deg, #1a0033 0%, #2d0b4e 100%);
+        border-right: 2px solid #a259ff;
+        min-height: 100vh;
+        box-shadow: 2px 0 16px #a259ff40;
+    }
+    .alien-nav-link {
+        color: #00fff7 !important;
+        font-weight: 500;
+        letter-spacing: 0.03em;
+        text-shadow: 0 0 8px #00fff7, 0 0 2px #a259ff;
+        transition: color 0.2s;
+    }
+    .alien-nav-link.active, .alien-nav-link:hover {
+        color: #a259ff !important;
+        background: #0a0826;
+        border-left: 4px solid #00fff7;
+    }
+</style>
+
+<nav class="alien-nav nav flex-column px-3 py-4">
+    <NavLink class="nav-link alien-nav-link" href="/" Match="NavLinkMatch.All">
+        <span class="oi oi-home" aria-hidden="true"></span> Home
+    </NavLink>
+</nav>
